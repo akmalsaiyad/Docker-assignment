@@ -1,3 +1,36 @@
+#version: '3.8'
+#services:
+#  app:
+#    image: spring-boot-docker
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    ports:
+#    - 8080:8080
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/docker
+#      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: root
+#      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+#      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+#    depends_on:
+#    - mysqldb
+#    networks:
+#    - mynetwork
+#  mysqldb:
+#    image: mysql:8.0
+#    environment:
+#      MYSQL_ROOT_PASSWORD: root
+#      MYSQL_DATABASE: docker
+#    ports:
+#    - 3307:3306
+#    networks:
+#    - mynetwork
+#networks:
+#  mynetwork:
+#    driver: bridge
+
+
 version: '3.8'
 services:
   app:
@@ -6,7 +39,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-    - 8080:8080
+      - 8080:8080
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/docker
       SPRING_DATASOURCE_USERNAME: root
@@ -14,18 +47,30 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
     depends_on:
-    - mysqldb
+      - mysqldb
     networks:
-    - mynetwork
+      - mynetwork
+    volumes:
+      - app-data:/app-data # Named volume for application-specific data
+      - ./host-config:/config # Bind mount for configuration files on the host machine
+      - ./logs:/var/log/app # Bind mount for logs on the host machine
+
   mysqldb:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: docker
     ports:
-    - 3306:3306
+      - 3307:3306
     networks:
-    - mynetwork
+      - mynetwork
+    volumes:
+      - db-data:/var/lib/mysql # Named volume for MySQL database persistence
+
 networks:
   mynetwork:
     driver: bridge
+
+volumes:
+  db-data: # Named volume for MySQL database data
+  app-data: # Named volume for application-specific data

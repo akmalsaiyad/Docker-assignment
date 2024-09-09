@@ -20,5 +20,10 @@ public class DockerAppController {
 		return docService.getAllPerson();
 
 	}
+	@GetMapping("/app")
+	public String getApp() {
+		return "Hello World";
+
+	}
 
 }

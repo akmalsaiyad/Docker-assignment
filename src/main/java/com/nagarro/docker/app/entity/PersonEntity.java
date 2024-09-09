@@ -12,7 +12,38 @@ public class PersonEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public long personID;
 	public String name;
+	public long getPersonID() {
+		return personID;
+	}
+	public void setPersonID(long personID) {
+		this.personID = personID;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
 	public String address;
 	public int age;
+	public String message = "HELLO WORLD";
 
 }
